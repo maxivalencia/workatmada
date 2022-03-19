@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Knp\Component\Pager\PaginatorInterface;
 /**
  * @Route("/curriculum")
  */
@@ -20,8 +20,13 @@ class CurriculumController extends AbstractController
      */
     public function index(CurriculumRepository $curriculumRepository): Response
     {
+        $pagination = $paginator->paginate(
+            $curriculumRepository->findBy([], ["id" => "DESC"]), /* query NOT result */
+            $request->query->getInt('page', 1)/*page number*/,
+            20/*limit per page*/
+        );
         return $this->render('curriculum/index.html.twig', [
-            'curricula' => $curriculumRepository->findAll(),
+            'curricula' => $pagination,
         ]);
     }
 

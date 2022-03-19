@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @Route("/type/annonce")
@@ -18,10 +19,15 @@ class TypeAnnonceController extends AbstractController
     /**
      * @Route("/", name="app_type_annonce_index", methods={"GET"})
      */
-    public function index(TypeAnnonceRepository $typeAnnonceRepository): Response
+    public function index(TypeAnnonceRepository $typeAnnonceRepository, Request $request, PaginatorInterface $paginator): Response
     {
+        $pagination = $paginator->paginate(
+            $typeAnnonceRepository->findBy([], ["id" => "DESC"]), /* query NOT result */
+            $request->query->getInt('page', 1)/*page number*/,
+            20/*limit per page*/
+        );
         return $this->render('type_annonce/index.html.twig', [
-            'type_annonces' => $typeAnnonceRepository->findAll(),
+            'type_annonces' => $pagination,
         ]);
     }
 

@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @Route("/type/file")
@@ -18,10 +19,15 @@ class TypeFileController extends AbstractController
     /**
      * @Route("/", name="app_type_file_index", methods={"GET"})
      */
-    public function index(TypeFileRepository $typeFileRepository): Response
+    public function index(TypeFileRepository $typeFileRepository, Request $request, PaginatorInterface $paginator): Response
     {
+        $pagination = $paginator->paginate(
+            $typeFileRepository->findBy([], ["id" => "DESC"]), /* query NOT result */
+            $request->query->getInt('page', 1)/*page number*/,
+            20/*limit per page*/
+        );
         return $this->render('type_file/index.html.twig', [
-            'type_files' => $typeFileRepository->findAll(),
+            'type_files' => $pagination,
         ]);
     }
 
