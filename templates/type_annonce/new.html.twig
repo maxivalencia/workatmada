@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New TypeAnnonce{% endblock %}
+
+{% block body %}
+    <h1>Create new TypeAnnonce</h1>
+
+    {{ include('type_annonce/_form.html.twig') }}
+
+    <a href="{{ path('app_type_annonce_index') }}">back to list</a>
+{% endblock %}

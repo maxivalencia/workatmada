@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Curriculum{% endblock %}
+
+{% block body %}
+    <h1>Curriculum</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ curriculum.id }}</td>
+            </tr>
+            <tr>
+                <th>Filename</th>
+                <td>{{ curriculum.filename }}</td>
+            </tr>
+            <tr>
+                <th>Servername</th>
+                <td>{{ curriculum.servername }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_curriculum_index') }}">back to list</a>
+
+    <a href="{{ path('app_curriculum_edit', {'id': curriculum.id}) }}">edit</a>
+
+    {{ include('curriculum/_delete_form.html.twig') }}
+{% endblock %}
