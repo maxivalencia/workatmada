@@ -14,6 +14,7 @@ class AnnonceType extends AbstractType
         $builder
             ->add('titre')
             ->add('contenue')
+            ->add('profils')
             ->add('datelimite')
             ->add('dossier')
             ->add('reference')

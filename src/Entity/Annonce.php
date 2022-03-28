@@ -60,6 +60,11 @@ class Annonce
      */
     private $userid;
 
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $profils;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -157,6 +162,18 @@ class Annonce
     public function setUserid(?User $userid): self
     {
         $this->userid = $userid;
+
+        return $this;
+    }
+
+    public function getProfils(): ?string
+    {
+        return $this->profils;
+    }
+
+    public function setProfils(string $profils): self
+    {
+        $this->profils = $profils;
 
         return $this;
     }
