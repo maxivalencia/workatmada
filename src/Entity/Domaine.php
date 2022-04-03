@@ -41,12 +41,12 @@ class Domaine
 
     public function getDomaine(): ?string
     {
-        return $this->domaine;
+        return strtoupper($this->domaine);
     }
 
     public function setDomaine(string $domaine): self
     {
-        $this->domaine = $domaine;
+        $this->domaine = strtoupper($domaine);
 
         return $this;
     }
@@ -79,5 +79,14 @@ class Domaine
         }
 
         return $this;
+    }
+
+    /**
+    * toString
+    * @return string
+    */
+    public function __toString()
+    {
+        return $this->getDomaine();
     }
 }

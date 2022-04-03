@@ -12,11 +12,12 @@ class FileType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('filename')
-            ->add('servername')
-            ->add('userid')
-            ->add('destinataire')
-            ->add('typefile')
+            ->add('filename', null)
+            ->add('servername', null)
+            ->add('userid', null)
+            ->add('destinataire', null)
+            ->add('typefile', null)
+            ->add('annonce', null)
         ;
     }
 

@@ -45,6 +45,11 @@ class File
      */
     private $typefile;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Annonce::class, inversedBy="files")
+     */
+    private $annonce;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -108,5 +113,26 @@ class File
         $this->typefile = $typefile;
 
         return $this;
+    }
+
+    public function getAnnonce(): ?Annonce
+    {
+        return $this->annonce;
+    }
+
+    public function setAnnonce(?Annonce $annonce): self
+    {
+        $this->annonce = $annonce;
+
+        return $this;
+    }
+
+    /**
+    * toString
+    * @return string
+    */
+    public function __toString()
+    {
+        return $this->getFilename();
     }
 }

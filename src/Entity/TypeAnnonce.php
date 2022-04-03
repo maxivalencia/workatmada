@@ -41,12 +41,12 @@ class TypeAnnonce
 
     public function getType(): ?string
     {
-        return $this->type;
+        return strtoupper($this->type);
     }
 
     public function setType(string $type): self
     {
-        $this->type = $type;
+        $this->type = strtoupper($type);
 
         return $this;
     }
@@ -79,5 +79,14 @@ class TypeAnnonce
         }
 
         return $this;
+    }
+
+    /**
+    * toString
+    * @return string
+    */
+    public function __toString()
+    {
+        return $this->getType();
     }
 }

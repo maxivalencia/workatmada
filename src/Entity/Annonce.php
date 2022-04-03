@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AnnonceRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -65,6 +67,16 @@ class Annonce
      */
     private $profils;
 
+    /**
+     * @ORM\OneToMany(targetEntity=File::class, mappedBy="annonce")
+     */
+    private $files;
+
+    public function __construct()
+    {
+        $this->files = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -72,12 +84,12 @@ class Annonce
 
     public function getTitre(): ?string
     {
-        return $this->titre;
+        return strtoupper($this->titre);
     }
 
     public function setTitre(string $titre): self
     {
-        $this->titre = $titre;
+        $this->titre = strtoupper($titre);
 
         return $this;
     }
@@ -174,6 +186,45 @@ class Annonce
     public function setProfils(string $profils): self
     {
         $this->profils = $profils;
+
+        return $this;
+    }
+
+    /**
+    * toString
+    * @return string
+    */
+    public function __toString()
+    {
+        return $this->getTitre();
+    }
+
+    /**
+     * @return Collection<int, File>
+     */
+    public function getFiles(): Collection
+    {
+        return $this->files;
+    }
+
+    public function addFile(File $file): self
+    {
+        if (!$this->files->contains($file)) {
+            $this->files[] = $file;
+            $file->setAnnonce($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFile(File $file): self
+    {
+        if ($this->files->removeElement($file)) {
+            // set the owning side to null (unless already changed)
+            if ($file->getAnnonce() === $this) {
+                $file->setAnnonce(null);
+            }
+        }
 
         return $this;
     }

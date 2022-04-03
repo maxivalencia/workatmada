@@ -11,6 +11,7 @@
                 <th>Id</th>
                 <th>Filename</th>
                 <th>Servername</th>
+                <th>Annonce</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -20,6 +21,7 @@
                 <td>{{ file.id }}</td>
                 <td>{{ file.filename }}</td>
                 <td>{{ file.servername }}</td>
+                <td>{{ file.annonce }}</td>
                 <td>
                     <a href="{{ path('app_file_show', {'id': file.id}) }}">show</a>
                     <a href="{{ path('app_file_edit', {'id': file.id}) }}">edit</a>
