@@ -94,6 +94,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $annonces;
 
+    /**
+     * @ORM\OneToMany(targetEntity=PubVer::class, mappedBy="userid")
+     */
+    private $pubVers;
+
+    /**
+     * @ORM\OneToMany(targetEntity=PubHor::class, mappedBy="userid")
+     */
+    private $pubHors;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -101,6 +111,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->files = new ArrayCollection();
         $this->pubs = new ArrayCollection();
         $this->annonces = new ArrayCollection();
+        $this->pubVers = new ArrayCollection();
+        $this->pubHors = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -421,5 +433,65 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __toString()
     {
         return $this->getNom().' '.$this->getPrenom();
+    }
+
+    /**
+     * @return Collection<int, PubVer>
+     */
+    public function getPubVers(): Collection
+    {
+        return $this->pubVers;
+    }
+
+    public function addPubVer(PubVer $pubVer): self
+    {
+        if (!$this->pubVers->contains($pubVer)) {
+            $this->pubVers[] = $pubVer;
+            $pubVer->setUserid($this);
+        }
+
+        return $this;
+    }
+
+    public function removePubVer(PubVer $pubVer): self
+    {
+        if ($this->pubVers->removeElement($pubVer)) {
+            // set the owning side to null (unless already changed)
+            if ($pubVer->getUserid() === $this) {
+                $pubVer->setUserid(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PubHor>
+     */
+    public function getPubHors(): Collection
+    {
+        return $this->pubHors;
+    }
+
+    public function addPubHor(PubHor $pubHor): self
+    {
+        if (!$this->pubHors->contains($pubHor)) {
+            $this->pubHors[] = $pubHor;
+            $pubHor->setUserid($this);
+        }
+
+        return $this;
+    }
+
+    public function removePubHor(PubHor $pubHor): self
+    {
+        if ($this->pubHors->removeElement($pubHor)) {
+            // set the owning side to null (unless already changed)
+            if ($pubHor->getUserid() === $this) {
+                $pubHor->setUserid(null);
+            }
+        }
+
+        return $this;
     }
 }

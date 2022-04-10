@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PubVer index{% endblock %}
+
+{% block body %}
+    <h1>PubVer index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Image</th>
+                <th>Lien</th>
+                <th>Isactive</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for pub_ver in pub_vers %}
+            <tr>
+                <td>{{ pub_ver.id }}</td>
+                <td>{{ pub_ver.image }}</td>
+                <td>{{ pub_ver.lien }}</td>
+                <td>{{ pub_ver.isactive ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('app_pub_ver_show', {'id': pub_ver.id}) }}">show</a>
+                    <a href="{{ path('app_pub_ver_edit', {'id': pub_ver.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_pub_ver_new') }}">Create new</a>
+{% endblock %}

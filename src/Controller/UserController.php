@@ -11,12 +11,20 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/user")
  */
 class UserController extends AbstractController
 {
+    private $passwordEncoder;
+
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $this->passwordEncoder = $passwordEncoder;
+    }
+    
     /**
      * @Route("/", name="app_user_index", methods={"GET"})
      */
@@ -35,22 +43,26 @@ class UserController extends AbstractController
     /**
      * @Route("/new", name="app_user_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): Response
+    public function new(Request $request, UserRepository $userRepository): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $plaintextPassword = $user->getPassword();
-            $hashedPassword = $passwordHasher->hashPassword(
+            $user->setPassword($this->passwordEncoder->encodePassword(
                 $user,
-                $plaintextPassword
-            );
-            $user->setPassword($hashedPassword);
+                $user->getPassword()
+            ));
+            //$user->setPassword($hashedPassword);
             $userRepository->add($user);
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
         }
+
+        /* return $this->renderForm('user/new.html.twig', [
+            'user' => $user,
+            'form' => $form,
+        ]); */
 
         return $this->renderForm('user/new.html.twig', [
             'user' => $user,
@@ -77,11 +89,10 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $plaintextPassword = $user->getPassword();
-            $hashedPassword = $passwordHasher->hashPassword(
+            $user->setPassword($this->passwordEncoder->encodePassword(
                 $user,
-                $plaintextPassword
-            );
+                $user->getPassword()
+            ));
             $userRepository->add($user);
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
         }

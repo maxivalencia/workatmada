@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit PubVer{% endblock %}
+
+{% block body %}
+    <h1>Edit PubVer</h1>
+
+    {{ include('pub_ver/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_pub_ver_index') }}">back to list</a>
+
+    {{ include('pub_ver/_delete_form.html.twig') }}
+{% endblock %}
