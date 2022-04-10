@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_admin.html.twig' %}
 
 {% block title %}PubHor index{% endblock %}
 
@@ -34,6 +34,10 @@
         {% endfor %}
         </tbody>
     </table>
+
+    <div class="navigation">
+        {{ knp_pagination_render(pub_hors) }}
+    </div>
 
     <a href="{{ path('app_pub_hor_new') }}">Create new</a>
 {% endblock %}

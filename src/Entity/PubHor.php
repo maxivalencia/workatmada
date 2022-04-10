@@ -33,7 +33,7 @@ class PubHor
     private $isactive;
 
     /**
-     * @ORM\ManyToOne(targetEntity=user::class, inversedBy="pubHors")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="pubHors")
      */
     private $userid;
 
@@ -88,5 +88,14 @@ class PubHor
         $this->userid = $userid;
 
         return $this;
+    }
+
+    /**
+    * toString
+    * @return string
+    */
+    public function __toString()
+    {
+        return $this->getImage();
     }
 }
